@@ -1,0 +1,2 @@
+#format: name ra_h ra_m ra_s dec_d dec_m dec_s i q u v emaj_s emin_s pa_d
+SrcGauss 17.000000 45.000000 40.040880 -29.000000 0.000000 2.811600 3.000000 0 0 0 0.000056 0.000056 45.0

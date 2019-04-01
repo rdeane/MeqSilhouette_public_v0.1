@@ -1,0 +1,201 @@
+# Detailed info on input JSON file parameters:
+----------------------------------------------
+
+Note: All the paths mentioned below are relative to $MEQS_DIR.
+
+outdirname:	Name of the output directory in which to write all the products of MeqSilhouette.
+		Format: string
+		e.g.: 'output/EHT230_TEST'
+
+input_fitsimage:	Name of the directory containing input fits images named using the following convention (samples can be found in input/sky_models):
+			Format: string
+			e.g.: No time-variability or polarisation -- 't0000-model.fits'
+			      Time-variable sky -- 'txxxx-model.fits', where, xxxx = 0000, 0001, 0002...
+			      Time-variable polarised sky -- 'txxxx-I-model.fits', 'txxxx-Q-model.fits', 'txxxx-U-model.fits', and 'txxxx-V-model.fits'
+			      Non-FITS ASCII/Tigger LSM file -- <filename-without-extension>. A valid ASCII input LSM has extensions '.txt' or '.lsm.html'
+								for MeqTrees compatible Tigger LSMs.
+
+			Note: The total number of unique times (i.e., correlator dumps) will be divided evenly between the input fits images which are
+			simulated into the column indicated by 'ms_datacolumn'. Since wsclean can predict visibilities only into the MODEL_DATA column,
+			MeqSilhouette will retain the values in MODEL_DATA, while copying the same into <ms_datacolumn>, after which the corruptions are
+			applied to <ms_datacolumn>.
+
+input_fitspol:	Toggle 0 or 1 for polarisation simulation.
+		Format: integer or boolean
+
+		Note: This does not apply when <input_fitsimage> is an ASCII LSM, since any polarisation info is read by MeqTrees automatically.
+
+output_to_logfile:	Toggle 0 or 1 -- create 'logfile.txt' within <outdirname>.
+			Format: integer or boolean
+
+add_thermal_noise:	Toggle 0 or 1 -- add baseline-dependent thermal noise, calculated using station SEFDs obtained from <station_info>.
+			Format: integer or boolean
+
+make_image:	Toggle 0 or 1 -- make a dirty image using lwimager. Other imagers such as WSClean and PyMORESANE to be used in the future.
+		Format: integer or boolean
+
+exportuvfits:	Toggle 0 or 1 -- export MS to UVFITS.
+		Format: integer or boolean
+
+station_info:	Name of the file containing individual station info such as SEFD, coherence time, primary beam model etc.,
+		Samples can be found in input/station_info.
+		Format: string
+		e.g.: 'input/station_info/EHT2017_station_info.txt'
+
+bandpass_enabled:	Toggle 0 or 1 -- add bandpass corruptions.
+			Format: integer or boolean
+
+bandpass_table:	ASCII file to read bandpass info from. The input file must contain bandpass gain amplitudes for each station for a set of frequencies.
+		Samples can be found in input/jones_info.
+		Format: integer or boolean
+		e.g.: 'input/jones_info/bandpass.txt'
+
+bandpass_freq_interp_order:	Order of spline interpolation.
+				Format: integer
+				e.g.: 3
+
+bandpass_makeplots:	Toggle 0 or 1 -- make bandpass plots.
+			Format: integer or boolean
+
+elevation_limit:	Flag visibilities below this elevation limit.
+			Format: float
+			Units: radians
+			e.g.: 0.174
+
+corr_quantbits:	Number of bits used for quantization by the correlator -- for instance, 2 bits for 4 level quantization.
+		Format: integer
+		Units: bits
+		e.g.: 2
+
+ms_antenna_table:	Input CASA antenna table to use for creating the Measurement Set. Samples can be found in input/antenna_tables
+			Format: string
+			e.g.: 'input/antenna_Tables/EHT2017_ANTENNA'
+
+ms_datacolumn:	Specify the column in the Measurement Set in which to write the output visibilities.
+		Format: string
+		e.g.: 'DATA'
+
+ms_RA:	Right Ascension of the pointing centre of the observation.
+	Format: float
+	Units: Degrees
+	e.g.: 266.416837
+
+ms_DEC:	Declination of the pointing centre of the observation.
+	Format: float
+	Units: Degrees
+	e.g.: -29.000781
+
+ms_polproducts:	Indicate how to interpret the polarization information of the 2 x 2 complex visibilities, based on whether the polarization feeds
+		are circular or linear.
+		Format: string
+		e.g.: 'RR RL LR LL' or 'XX XY YX YY'
+
+ms_nu:	Specify the centre frequency of the bandpass.
+	Format: float
+	Units: GHz
+	e.g.: 230.0
+
+ms_dnu:	Specify the bandwidth of the spectral window.
+	Format: float
+	Units: GHz
+	e.g.: 2.56
+
+ms_nchan:	Specify the number of channels into which the bandwidth <ms_dnu> is divided.
+		Format: integer
+		e.g.: 8
+
+ms_obslength:	Specify the duration of the observation.
+		Format: float
+		Units: hours
+		e.g.: 4
+
+ms_tint:	Specify the integration time (i.e. the correlator dump time).
+		Format: float
+		Units: seconds
+		e.g.: 60
+
+ms_StartTime:	Specify the starting time of the observation to be input to the CASA simulator via simms.
+		Format: string
+		e.g.: 'UTC,2017/04/01/00:00:00.00'
+
+ms_nscan:	Specify the number of scans in the observation.
+		Format: integer
+		e.g.: 1
+
+ms_scan_lag:	Specify the lag time between scans.
+		Format: float
+		Units: hours
+		e.g.: 0
+
+ms_makeplots:	Toggle 0 or 1 -- generate MS-related plots such as uv-coverage, uv-distance sensitivity bins etc.,
+		Format: integer or boolean
+
+im_cellsize:	Specify the cell size to be used for imaging.  Used only if <make_image> is enabled.
+		Format: string
+		e.g.: '3e-6arcsec'
+
+im_npix:	Specify image size in pixels. Used only if <make_image> is enabled.
+		Format: integer
+		e.g.: 64
+
+im_stokes:	Specify the the Stokes parameter to image (I, Q, U, or V). Used only if <make_image> is enabled.
+		Format: string
+		e.g.: 'I'
+
+im_weight:	Specify the weighting to use for imaging. Used only if <make_image> is enabled.
+		Format: string
+		e.g.: 'uniform'
+
+trop_enabled:	Toggle 0 or 1 -- enable tropospheric corruptions.
+		Format: integer or boolean
+
+trop_wetonly:	Toggle 0 or 1 -- simulate wet component only (from the output obtained from AATM). Used only if trop_enabled=1.
+		Format: integer or boolean
+
+trop_attenuate:	Toggle 0 or 1 -- enable tropospheric attenuation. Used only if trop_enabled=1.
+		Format: integer or boolean
+
+trop_noise:	Toggle 0 or 1 -- include tropospheric (i.e. sky) noise. Used only if trop_enabled=1.
+		Format: integer or boolean
+
+trop_turbulence:	Toggle 0 or 1 -- add Kolmogorov turbulence to the visibility phases. Used only if trop_enabled=1.
+			Format: integer or boolean
+
+trop_mean_delay:	Toggle 0 or 1 -- add mean (i.e. non-turbulent) delay errors due to both dry and wet components. Used only if trop_enabled=1.
+			Format: integer or boolean
+
+trop_percentage_calibration_error:	Unused.
+
+trop_fixdelays:	Toggle 0 or 1 -- Insert time-invariant delay errors for testing purposes. Used only if trop_enabled=1.
+		Format: integer or boolean
+
+trop_fixdelay_max_picosec:	Specify the maximum absolute value of the constant delay errors. Used only if trop_enabled=1 and trop_fixdelays=1.
+				Format: float
+				Units: picoseconds
+				e.g.: 200
+
+trop_makeplots:	Toggle 0 or 1. Plot troposphere-related quantities such as zenith opacity, elevation-dependent transmission, zenith sky temperature against frequency
+		and turbulent phase errors and delays against time.
+		Format: integer or boolean
+
+pointing_enabled:	Toggle 0 or 1 -- enable pointing error simulation. Station-based pointing error info must be present in <station_info>.
+			Format: integer or boolean
+
+pointing_time_per_mispoint:	Specify the number of minutes per mispointing.
+				Format: float
+				Units: minutes
+				e.g.: 10
+
+pointing_makeplots:	Toggle 0 or 1 -- plot pointing offset against time.
+			Format: integer or boolean
+
+uvjones_d_on:	Switch on polarization leakage effects (D-Jones). The station-based complex leakage terms are specified in the station-info file.
+		The 2x2 D-Jones matrix takes the form [[1 dR_real+1j*dR_imag], [dL_real+1j*dL_imag 1]]. When switched on, the parallactic angle (P-Jones)
+		effects are added automatically.
+
+uvjones_g_on:	Switch on complex gains (G-Jones). The station-based complex gain terms are specified in the station-info file.
+		The 2x2 G-Jones matrix takes the form [[gR_real+1j*gR_imag 0], [0 gL_real+1j*gL_imag]].
+
+parang_corrected:	Toggle 0 or 1 -- If 0, then parallactic angle rotation will be performed while computing the D-Jones terms;
+			if 1, then it will be assumed that parallactic angle correction has already been performed and twice the field angle
+			rotation will be performed while computing the D-Jones terms.

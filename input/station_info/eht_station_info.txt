@@ -1,0 +1,9 @@
+station	     sefd     pwv	gpress	    gtemp	c_time	ptg_rms	    PB_FWHM230	    PB_model
+SMA	        4900.0     1     	600      270      20	1.0	            44.7		gaussian
+SMT   	    11900.0    5     	600      270      10	1.0	            26.8		gaussian
+LMT	        560.0      0.5     	600      270      30	1.0	            5.36		gaussian
+ALMA	    110.0      0.3     	600      270      35	1.0	            22.35		gaussian
+PV	        2900.0     3     	600      270      12	1.0	            8.9		    gaussian
+PdBI	    1600.0     2     	600      270      15	1.0	            17.8		gaussian
+JCMT	    5000       1     	680      270      21	1.0	            15		    gaussian
+SPT         15000.0    0.1     	600      270      40	1.0	            10		    gaussian
